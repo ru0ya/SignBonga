@@ -1,0 +1,195 @@
+/** @jsxImportSource https://esm.sh/react */
+import React from 'https://esm.sh/react';
+
+export default function server(request: Request): Response {
+  const dashboardScript = `
+    import React from 'https://esm.sh/react';
+    import { createRoot } from 'https://esm.sh/react-dom/client';
+    import { ChevronLeft, ChevronRight, LayoutDashboard, BookOpen, FileText, CheckSquare, Settings, LogOut, Bell, Mail, MoreVertical } from 'https://esm.sh/lucide-react';
+
+    const Dashboard = () => {
+      return React.createElement(
+        'div',
+        { className: 'flex h-screen bg-gray-100' },
+        React.createElement(
+          'aside',
+          { className: 'w-64 bg-white p-6 flex flex-col justify-between' },
+          React.createElement('div', null,
+            React.createElement('img', {
+              src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23DC2626'/%3E%3Cpath d='M30 30 L70 30 L50 70 Z' fill='white'/%3E%3C/svg%3E",
+              alt: "SignBonga Logo",
+              className: "w-10 h-10 mb-8"
+            }),
+            React.createElement('nav', null,
+              React.createElement('h2', { className: 'text-xs font-semibold text-gray-400 mb-4' }, 'OVERVIEW'),
+              React.createElement('ul', { className: 'space-y-4' },
+                React.createElement('li', { className: 'flex items-center text-red-500 font-medium' },
+                  React.createElement(LayoutDashboard, { className: 'mr-3', size: 20 }),
+                  ' Dashboard'
+                ),
+                React.createElement('li', { className: 'flex items-center text-gray-600' },
+                  React.createElement(BookOpen, { className: 'mr-3', size: 20 }),
+                  ' Learning Track'
+                ),
+                React.createElement('li', { className: 'flex items-center text-gray-600' },
+                  React.createElement(FileText, { className: 'mr-3', size: 20 }),
+                  ' Lesson'
+                ),
+                React.createElement('li', { className: 'flex items-center text-gray-600' },
+                  React.createElement(CheckSquare, { className: 'mr-3', size: 20 }),
+                  ' Test Yourself'
+                )
+              )
+            )
+          ),
+          React.createElement('div', null,
+            React.createElement('h2', { className: 'text-xs font-semibold text-gray-400 mb-4' }, 'SETTINGS'),
+            React.createElement('ul', { className: 'space-y-4' },
+              React.createElement('li', { className: 'flex items-center text-gray-600' },
+                React.createElement(Settings, { className: 'mr-3', size: 20 }),
+                ' Settings'
+              ),
+              React.createElement('li', { className: 'flex items-center text-red-500' },
+                React.createElement(LogOut, { className: 'mr-3', size: 20 }),
+                ' Logout'
+              )
+            )
+          )
+        ),
+        React.createElement(
+          'main',
+          { className: 'flex-1 p-8' },
+          React.createElement('header', { className: 'flex justify-between items-center mb-8' },
+            React.createElement('div', { className: 'bg-red-500 text-white rounded-2xl p-6 flex-1 mr-8 relative overflow-hidden' },
+              React.createElement('span', { className: 'text-sm font-medium' }, 'ONLINE COURSE'),
+              React.createElement('h1', { className: 'text-2xl font-bold mt-2' }, 'Learn the Kenyan Sign Language Today'),
+              React.createElement('div', { className: 'absolute top-0 right-0 text-red-300 opacity-50' }, '✦ ✦ ✦')
+            ),
+            React.createElement('div', { className: 'flex items-center' },
+              React.createElement('span', { className: 'mr-4 font-medium' }, 'Your Profile'),
+              React.createElement('div', { className: 'relative' },
+                React.createElement('img', {
+                  src: 'https://maxm-imggenurl.web.val.run/a%20profile%20picture%20of%20a%20young%20man%20with%20short%20hair',
+                  alt: 'Profile',
+                  className: 'w-10 h-10 rounded-full'
+                }),
+                React.createElement('div', { className: 'absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white' })
+              ),
+              React.createElement(MoreVertical, { className: 'ml-2 text-gray-400' })
+            )
+          ),
+          React.createElement('section', { className: 'mb-8' },
+            React.createElement('div', { className: 'flex justify-between items-center mb-4' },
+              React.createElement('h2', { className: 'text-xl font-bold' }, 'Lessons'),
+              React.createElement('div', { className: 'flex' },
+                React.createElement(ChevronLeft, { className: 'text-gray-400 mr-2' }),
+                React.createElement(ChevronRight, { className: 'text-gray-400' })
+              )
+            ),
+            React.createElement('div', { className: 'grid grid-cols-3 gap-6' },
+              [
+                { title: 'Alphabet', image: 'https://maxm-imggenurl.web.val.run/a%20computer%20screen%20showing%20code', progress: 30 },
+                { title: 'Numbers', image: 'https://maxm-imggenurl.web.val.run/a%20woman%20presenting%20an%20online%20course', progress: 50 },
+                { title: 'Common Words', image: 'https://maxm-imggenurl.web.val.run/a%20woman%20teaching%20software%20development', progress: 20 }
+              ].map((lesson, index) =>
+                React.createElement('div', { key: index, className: 'bg-white rounded-lg overflow-hidden shadow' },
+                  React.createElement('img', { src: lesson.image, alt: lesson.title, className: 'w-full h-40 object-cover' }),
+                  React.createElement('div', { className: 'p-4' },
+                    React.createElement('h3', { className: 'font-semibold mb-2' }, lesson.title),
+                    React.createElement('div', { className: 'bg-gray-200 h-2 rounded-full' },
+                      React.createElement('div', {
+                        className: 'bg-green-500 h-2 rounded-full',
+                        style: { width: \`\${lesson.progress}%\` }
+                      })
+                    )
+                  )
+                )
+              )
+            ),
+            React.createElement('a', { href: '#', className: 'text-blue-500 text-sm mt-4 inline-block' }, 'See All')
+          ),
+          React.createElement('section', null,
+            React.createElement('h2', { className: 'text-xl font-bold mb-4' }, 'Course List'),
+            React.createElement('table', { className: 'w-full' },
+              React.createElement('thead', null,
+                React.createElement('tr', { className: 'text-left text-gray-500' },
+                  React.createElement('th', { className: 'pb-4' }, 'COURSE TYPE'),
+                  React.createElement('th', { className: 'pb-4' }),
+                  React.createElement('th', { className: 'pb-4' }, 'COURSE TITLE'),
+                  React.createElement('th', { className: 'pb-4' })
+                )
+              ),
+              React.createElement('tbody', null,
+                [
+                  { title: 'Alphabet', status: 'BEGIN • 10XP', action: 'DONE' },
+                  { title: 'Numbers', status: 'BEGIN • 10XP', action: 'START' }
+                ].map((course, index) =>
+                  React.createElement('tr', { key: index, className: 'border-t border-gray-200' },
+                    React.createElement('td', { className: 'py-4 flex items-center' },
+                      React.createElement('img', {
+                        src: 'https://maxm-imggenurl.web.val.run/a%20profile%20picture%20of%20Victor%20Mwangi',
+                        alt: 'Instructor',
+                        className: 'w-8 h-8 rounded-full mr-3'
+                      }),
+                      'Victor Mwangi'
+                    ),
+                    React.createElement('td', null,
+                      React.createElement('span', { className: 'bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-xs' }, course.status)
+                    ),
+                    React.createElement('td', null, course.title),
+                    React.createElement('td', null,
+                      React.createElement('button', {
+                        className: \`\${course.action === 'DONE' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'} px-4 py-1 rounded-full text-sm\`
+                      }, course.action)
+                    )
+                  )
+                )
+              )
+            )
+          )
+        ),
+        React.createElement(
+          'aside',
+          { className: 'w-64 bg-white p-6' },
+          React.createElement('div', { className: 'flex flex-col items-center mb-8' },
+            React.createElement('div', { className: 'relative mb-4' },
+              React.createElement('img', {
+                src: 'https://maxm-imggenurl.web.val.run/a%20profile%20picture%20of%20Victor',
+                alt: 'Profile',
+                className: 'w-20 h-20 rounded-full'
+              }),
+              React.createElement('div', { className: 'absolute bottom-0 right-0 w-5 h-5 bg-green-500 rounded-full border-2 border-white' })
+            ),
+            React.createElement('h2', { className: 'font-bold mb-1' }, 'Hujambo Victor!'),
+            React.createElement('p', { className: 'text-sm text-gray-500 text-center' }, 'Continue Your Journey And Achieve Your Target')
+          ),
+          React.createElement('div', { className: 'flex justify-center space-x-4 mb-8' },
+            React.createElement('button', { className: 'p-2 bg-gray-100 rounded-full' }, React.createElement(Bell, { size: 20 })),
+            React.createElement('button', { className: 'p-2 bg-gray-100 rounded-full' }, React.createElement(Mail, { size: 20 })),
+            React.createElement('button', { className: 'p-2 bg-gray-100 rounded-full' }, React.createElement(Settings, { size: 20 }))
+          )
+        )
+      );
+    };
+
+    createRoot(document.getElementById('root')).render(React.createElement(Dashboard));
+  `;
+
+  return new Response(`
+    <html>
+      <head>
+        <title>Kenyan Sign Language Dashboard</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+      </head>
+      <body>
+        <div id="root"></div>
+        <script src="https://esm.town/v/std/catch"></script>
+        <script type="module">${dashboardScript}</script>
+      </body>
+    </html>
+  `, {
+    headers: {
+      "content-type": "text/html",
+    },
+  });
+}
