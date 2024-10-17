@@ -34,15 +34,15 @@ DEBUG = True
 
 # CORS_ALLOW_CREDENTIALS = True
 
-# CORS_ALLOWED_ORIGINS = [
-#         "http://localhost:3000"
-#         ]
+CORS_ALLOWED_ORIGINS = [
+        "http://localhost:3000"
+        ]
 
 # CORS_ALLOW_HEADERS: List[str] = list(default_headers) + [
 #         "Content-Type"
 #         ] + get_all_cors_headers()
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'djoser',
     'drf_yasg',
     'rest_framework_simplejwt',
+    'corsheaders',
     # 'allauth',
     # 'allauth.account',
     # 'allauth.socialaccount'
@@ -71,6 +72,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -105,6 +107,10 @@ REST_FRAMEWORK = {
         'DEFAULT_AUTHENTICATION_CLASSES': (
             'rest_framework.authentication.TokenAuthentication',
             'rest_framework.authentication.SessionAuthentication',
+            'rest_framework.authentication.SessionAuthentication',
+            ),
+        'DEFAULT_PERMISSION_CLASSES': (
+            'rest_framework.permissions.AllowAny',
             ),
         'DEFAULT_FILTER_BACKENDS': (
             'django_filters.rest_framework.DjangoFilterBackend',
@@ -191,12 +197,13 @@ DJOSER = {
             'current_user': 'users.serializers.CustomUserSerializer',
             },
         'USER_CREATE_PASSWORD_RETYPE': True,
-        'SEND_ACTIVATION_EMAIL': True,
-        'SEND_CONFIRMATION_EMAIL': True,
-        'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
+        'SEND_ACTIVATION_EMAIL': False,
+        'SEND_CONFIRMATION_EMAIL': False,
+        'PASSWORD_CHANGED_EMAIL_CONFIRMATION': False,
         'SET_PASSWORD_RETYPE': True,
-        'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+        # 'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
         'ACTIVATION_URL': 'activate/{uid}/{token}',
+        'ACTIVATION_BY_DEFAULT': True,
         }
 
 SIMPLE_JWT = {

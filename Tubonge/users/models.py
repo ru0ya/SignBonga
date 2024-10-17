@@ -8,12 +8,12 @@ from django.contrib.auth.models import (
         BaseUserManager,
         PermissionsMixin
         )
+import uuid
 
 
 class UserManager(BaseUserManager):
     def create_user(
             self,
-            id,
             email,
             first_name,
             last_name,
@@ -25,6 +25,8 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(
                 email=email,
+                first_name=first_name,
+                last_name=last_name,
                 **extra_fields
                 )
         user.set_password(password)
@@ -33,7 +35,6 @@ class UserManager(BaseUserManager):
 
     def create_superuser(
             self,
-            id,
             email,
             first_name,
             last_name,
@@ -44,7 +45,6 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
 
         superuser = self.create_user(
-                id,
                 email,
                 first_name,
                 last_name,
@@ -57,7 +57,11 @@ class UserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    id = models.CharField(max_length=36, primary_key=True)
+    id = models.UUIDField(
+            primary_key=True,
+            default=uuid.uuid4,
+            editable=False
+            )
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     date_joined = models.DateTimeField(_("created date"), auto_now_add=True)
@@ -79,7 +83,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     @property
     def is_tutor(self):
-        return hasattr(self, 'learner_profile')
+        return hasattr(self, 'tutor_profile')
 
 
 class LearnerProfile(models.Model):

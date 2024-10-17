@@ -2,7 +2,7 @@ import React from 'react';
 
 const AboutUs = () => {
   return (
-    <div className="bg-gray-100 min-h-screen p-8">
+    <div className="bg-[#edeeef] min-h-screen p-8">
       <h1 className="text-red-600 text-3xl font-bold mb-8">ABOUT US</h1>
       
       <div className="flex flex-col lg:flex-row items-start">
@@ -13,8 +13,8 @@ const AboutUs = () => {
           </h2>
           
           <div className="flex items-start mb-8">
-           <img src="https://imgur.com/UvTBFa1" alt="Person signing" className="mr-8" width="150" height="200" />
-
+	        <img src="https://imgur.com/AcO7zfi.png" alt="boy-signing" className="mr-4 lg:w-64 w-1/3 h-auto" />
+			
             
             <div>
               <p className="mb-4">
@@ -32,8 +32,8 @@ const AboutUs = () => {
           </div>
         </div>
         
-        <div className="lg:w-1/3">
-          <img src="https://imgur.com/UvTBFa1" alt="classroom" className="mr-8" width="400" height="300" />
+        <div className="lg:w-1/3 flex justify-end">
+	        <img src="https://imgur.com/UvTBFa1.png" alt="classroom" className="lg:w-64 w-auto h-auto" />
         </div>
       </div>
     </div>

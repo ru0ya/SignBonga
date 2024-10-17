@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db import transaction
 from django.contrib.auth.hashers import make_password
 
 from djoser.serializers import (
@@ -48,17 +49,29 @@ class CustomUserCreateSerializer(UserCreateSerializer):
                 'user_type'
                 )
 
+    @transaction.atomic
     def create(self, validated_data):
         user_type = validated_data.pop('user_type')
-        user = CustomUser.objects.create_user(**validated_data)
+        password = validated_data.pop('password')
+        user = CustomUser.objects.create_user(
+                **validated_data,
+                password=password
+                )
+        user.is_active = True
         user.is_learner = (user_type == 'learner')
         user.is_tutor = (user_type == 'tutor')
         user.save()
 
-        if user.is_learner:
-            LearnerProfile.objects.create(user=user)
-        elif user.is_tutor:
-            TutorProfile.objects.create(user=user)
+        try:
+            if user.is_learner:
+                LearnerProfile.objects.create(user=user)
+            elif user.is_tutor:
+                TutorProfile.objects.create(user=user)
+        except Exception as e:
+            user.delete()
+            raise serializers.ValidationError(
+                    f"Failed to create user profile: {str(e)}"
+                    )
 
         return user
 
