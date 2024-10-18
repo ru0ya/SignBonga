@@ -3,7 +3,10 @@ Building a classroom for everyone to easily learn **Kenyan Sign Language**.
 
 ## Event  
 **#Hack4Series #Hack4PWD**  
-Tech for Social Impact for people living with disabilities.
+- Tech for Social Impact for people living with disabilities.  
+- Find video presentation [here](pres_video/presentation.mkv)  
+- Presentation [slides](https://pitch.com/v/signbonga-ehtcq6/e7ba251f-77be-464a-8b85-83765ab062f6)  
+
 
 ## Team  
 - **Victor Mwangi**  

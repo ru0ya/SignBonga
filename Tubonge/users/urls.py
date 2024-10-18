@@ -8,8 +8,6 @@ from django.urls import path, include
 
 from users.views import (
         UserDetailView,
-        CreateLearnerProfileView,
-        CreateTutorProfileView
         )
 
 
@@ -19,14 +17,14 @@ urlpatterns = [
             UserDetailView.as_view(),
             name='user-detail'
             ),
-        path(
-            'user/profile/learner/',
-            CreateLearnerProfileView.as_view(),
-            name='learner-profile'
-            ),
-        path(
-            'user/profile/tutor/',
-            CreateTutorProfileView.as_view(),
-            name='tutor-profile'
-            ),
+        # path(
+        #     'user/profile/learner/',
+        #     CreateLearnerProfileView.as_view(),
+        #     name='learner-profile'
+        #     ),
+        # path(
+        #     'user/profile/tutor/',
+        #     CreateTutorProfileView.as_view(),
+        #     name='tutor-profile'
+        #     ),
         ]

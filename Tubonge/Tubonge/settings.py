@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 from decouple import config
 from datetime import timedelta
+import os
 
 
 
@@ -68,6 +69,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'users.apps.UsersConfig',
     'tubonge.apps.TubongeConfig',
+    # 'predict.app.PredictConfig',
     'drf_spectacular',
 ]
 
@@ -131,6 +133,8 @@ DATABASES = {
 }
 
 SITE_ID = 1
+
+MODEL_DIR = os.path.join(BASE_DIR, 'ml/tf_model')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

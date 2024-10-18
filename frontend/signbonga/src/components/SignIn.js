@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +8,7 @@ const SignIn = () => {
     password: '',
   });
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,10 +20,26 @@ const SignIn = () => {
 
     try {
       const response = await axios.post('http://localhost:8000/auth/token/login', formData);
+	  const accessToken = response.data.access;
+      const refreshToken = response.data.refresh;
       // Store the tokens in localStorage or a more secure storage method
       localStorage.setItem('access', response.data.access);
       localStorage.setItem('refresh', response.data.refresh);
-      // Redirect the user or update app state to reflect that the user is logged in
+      
+	  const profileResponse = await axios.get('http://localhost:8000/auth/users/me/', {
+		  headers: {
+			  Authorization: `Bearer ${accessToken}`,
+		  },
+	  });
+	  const userRole = profileResponse.data.user_type;
+	  
+	  if (userRole === 'learner') {
+		  navigate('/learner');
+	  } else if (userRole === 'tutor') {
+		  navigate('/tutor');
+	  } else {
+		  setError('Unknown role, cannot redirect.');
+	  }
     } catch (err) {
       setError(err.response?.data?.detail || 'An error occurred during sign in.');
     }

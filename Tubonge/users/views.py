@@ -11,10 +11,10 @@ from django.conf import settings
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.contrib.auth import get_user_model
 
 
 from users.models import (
-        CustomUser,
         LearnerProfile,
         TutorProfile
         )
@@ -25,7 +25,10 @@ from users.serializers import (
         )
 
 
-class CreateProfileView(APIView):
+User = get_user_model()
+
+
+class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
     profile_model: Type[models.Model] = None
     serializer_class: Type[serializers.ModelSerializer] = None
@@ -59,18 +62,6 @@ class CreateProfileView(APIView):
                     serializer.errors,
                     status=status.HTTP_400_BAD_REQUEST
                     )
-
-
-class CreateLearnerProfileView(CreateProfileView):
-    profile_model = LearnerProfile
-    serializer_class = LearnerProfileSerializer
-    user_field_type = 'is_learner'
-
-
-class CreateTutorProfileView(CreateProfileView):
-    profile_model = TutorProfile
-    serializer_class = TutorProfileSerializer
-    user_field_type = 'is_tutor'
 
 
 class UserDetailView(APIView):
