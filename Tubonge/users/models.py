@@ -25,8 +25,8 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(
                 email=email,
-                # first_name=first_name,
-                # last_name=last_name,
+                first_name=first_name,
+                last_name=last_name,
                 **extra_fields
                 )
         user.set_password(password)
@@ -46,8 +46,8 @@ class UserManager(BaseUserManager):
 
         superuser = self.create_user(
                 email,
-                # first_name,
-                # last_name,
+                first_name,
+                last_name,
                 password,
                 **extra_fields
                 )
@@ -65,8 +65,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
             default=uuid.uuid4,
             editable=False
             )
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     date_joined = models.DateTimeField(_("created date"), auto_now_add=True)
     email = models.EmailField(_('email address'), unique=True)
     user_type = models.CharField(

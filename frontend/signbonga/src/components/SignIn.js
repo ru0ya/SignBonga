@@ -17,29 +17,27 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
     try {
-      const response = await axios.post('http://localhost:8000/auth/token/login', formData);
-	  const accessToken = response.data.access;
-      const refreshToken = response.data.refresh;
-      // Store the tokens in localStorage or a more secure storage method
-      localStorage.setItem('access', response.data.access);
-      localStorage.setItem('refresh', response.data.refresh);
+      const response = await axios.post('http://localhost:8000/auth/token/login/', formData);
+      const { auth_token } = response.data;
+
+      localStorage.setItem('auth_token', auth_token);
       
-	  const profileResponse = await axios.get('http://localhost:8000/auth/users/me/', {
-		  headers: {
-			  Authorization: `Bearer ${accessToken}`,
-		  },
-	  });
-	  const userRole = profileResponse.data.user_type;
-	  
-	  if (userRole === 'learner') {
-		  navigate('/learner');
-	  } else if (userRole === 'tutor') {
-		  navigate('/tutor');
-	  } else {
-		  setError('Unknown role, cannot redirect.');
-	  }
+      // Fetch user profile
+      const profileResponse = await axios.get('http://localhost:8000/auth/users/me/', {
+        headers: {
+          Authorization: `Token ${auth_token}`,
+        },
+      });
+      const userRole = profileResponse.data.user_type;
+      
+      if (userRole === 'learner') {
+        navigate('/learner');
+      } else if (userRole === 'tutor') {
+        navigate('/tutor');
+      } else {
+        setError('Unknown role, cannot redirect.');
+      }
     } catch (err) {
       setError(err.response?.data?.detail || 'An error occurred during sign in.');
     }
@@ -55,12 +53,12 @@ const SignIn = () => {
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email" className="sr-only">Username</label>
+              <label htmlFor="email" className="sr-only">Email</label>
               <input
                 id="email"
                 name="email"
                 type="email"
-	            autoComplete="email"
+                autoComplete="email"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email"
@@ -83,11 +81,10 @@ const SignIn = () => {
               />
             </div>
           </div>
-
           <div>
             <button
               type="submit"
-	          className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#232526] hover:bg-[#0a0d0e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#232526]"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#232526] hover:bg-[#0a0d0e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#232526]"
             >
               Sign In
             </button>

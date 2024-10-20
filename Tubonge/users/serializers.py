@@ -35,7 +35,7 @@ class CustomUserSerializer(UserSerializer):
         fields = UserSerializer.Meta.fields + (
                 'first_name',
                 'last_name',
-                'user_type'
+                'user_type',
                 'learner_profile',
                 'tutor_profile'
                 )
@@ -54,15 +54,22 @@ class CustomUserCreateSerializer(UserCreateSerializer):
 
     def create(self, validated_data):
         user_type = validated_data.pop('user_type')
-        user = User.objects.create_user(**validated_data)
-        user.user_type = user_type
-        # user.is_learner = (user_type == 'learner')
-        # user.is_tutor = (user_type == 'tutor')
-        user.save()
+        password = validated_data.pop('password')
 
-        if user_type == 'learner':
-            LearnerProfile.objects.create(user=user)
-        elif user_type == 'tutor':
-            TutorProfile.objects.create(user=user)
+        with transaction.atomic():
+            user = User.objects.create_user(
+                    **validated_data,
+                    # user_type=user_type
+                    )
+            user.user_type = user_type
+            # user.is_learner = (user_type == 'learner')
+            # user.is_tutor = (user_type == 'tutor')
+            #user.set_password(password)
+            user.save()
+
+            if user_type == 'learner':
+                LearnerProfile.objects.create(user=user)
+            elif user_type == 'tutor':
+                TutorProfile.objects.create(user=user)
         
         return user
