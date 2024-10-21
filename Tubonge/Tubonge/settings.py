@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # CORS_ORIGIN_WHITELIST = [
 #         "http://localhost:3000"
@@ -43,7 +43,14 @@ CORS_ALLOWED_ORIGINS = [
 #         "Content-Type"
 #         ] + get_all_cors_headers()
 
-ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+        'https://signbonga.onrender.com',
+        ]
+
+ALLOWED_HOSTS = [
+        '*',
+        'signbonga.onrender.com'
+        ]
 
 
 # Application definition
