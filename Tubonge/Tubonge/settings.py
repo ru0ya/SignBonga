@@ -186,13 +186,13 @@ SPECTACULAR_SETTINGS = {
         }
 
 
-EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
-EMAIL_HOST = 'mail.smtp2go.com'
-EMAIL_PORT = config('PORT')
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = config('EMAIL_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+# EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+# EMAIL_HOST = 'mail.smtp2go.com'
+# EMAIL_PORT = config('PORT')
+# EMAIL_USE_SSL = True
+# EMAIL_HOST_USER = config('EMAIL_USER')
+# EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
+# DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
 DJOSER = {
         'SERIALIZERS': {

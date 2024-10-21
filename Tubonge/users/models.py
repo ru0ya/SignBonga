@@ -72,8 +72,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     user_type = models.CharField(
             max_length=10,
             choices=USER_TYPE_CHOICES,
-            null=True,
-            blank=True
+            default='learner'
+            # null=True,
+            # blank=True
             )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
