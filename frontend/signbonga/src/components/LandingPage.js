@@ -17,7 +17,8 @@ const LandingPage = () => {
           <p className="text-white mb-6">
             We are on a mission to break the ice and encourage inclusivity
             in communication for all. Get to learn the kenyan sign language
-            and have those conversations, with everyone.
+            using AI and a well curated learning programme at your convenience
+			,have those conversations with everyone.
           </p>
 	      <Link
 	        to="/sign-up"
