@@ -6,6 +6,7 @@ Building a classroom for everyone to easily learn **Kenyan Sign Language**.
 - Tech for Social Impact for people living with disabilities.  
 - Find video presentation [here](pres_video/presentation.mkv)  
 - Presentation [slides](https://pitch.com/v/signbonga-ehtcq6/11c90d95-942d-4f27-868e-65aa1f7543aa)  
+- Live [Link](https://sign-bonga-jt2b.vercel.app/)
 
 
 ## Team  
