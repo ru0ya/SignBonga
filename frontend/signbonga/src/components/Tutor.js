@@ -41,12 +41,28 @@ const TutorPage = () => {
     }
   };
 
+  const handleLogout = async (e) => {
+	  e.preventDefault();
+	  try {
+		  await axios.post('http:localhost:8000/auth/token/logout/', {},
+			  {
+				  headers: {
+					  'Authorization': `Token ${localStorage.getItem('auth_token')}`
+					  }
+			  });
+		  localStorage.removeItem('auth_token');
+		  window.location.href = '/login';
+	  } catch (error) {
+		  console.error('Error logging out: ',  error);
+	  }
+  };
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
       <aside className="w-64 bg-white p-6 flex flex-col">
         <div className="mb-8">
-          <img src="/api/placeholder/50/50" alt="Logo" className="w-12 h-12" />
+          <img src="https://imgur.com/a/sc8lDTn" alt="Logo" className="w-12 h-12" />
         </div>
         <nav className="space-y-4 flex-grow">
           <a href="#" className="flex items-center text-red-500 font-medium" onClick={() => setActiveView('lessons')}>
@@ -67,10 +83,10 @@ const TutorPage = () => {
             <User className="mr-2" size={20} />
             Profile
           </a>
-          <a href="#" className="flex items-center text-red-500">
+          <button onClick={handleLogout} className="flex items-center text-red-500">
             <LogOut className="mr-2" size={20} />
             Logout
-          </a>
+          </button>
         </div>
       </aside>
 

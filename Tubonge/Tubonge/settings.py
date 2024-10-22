@@ -14,6 +14,7 @@ from pathlib import Path
 from decouple import config
 from datetime import timedelta
 import os
+import whitenoise
 
 
 
@@ -96,7 +97,11 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFileStorage'
+STORAGE = {
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFileStorage"
+            },
+        }
 
 ROOT_URLCONF = 'Tubonge.urls'
 

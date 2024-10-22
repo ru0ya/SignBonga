@@ -56,4 +56,5 @@ twilio==7.9.1
 typing_extensions==4.12.2
 uritemplate==4.1.1
 urllib3==2.2.3
+whitelist==0.2.8
 wrapt==1.16.0

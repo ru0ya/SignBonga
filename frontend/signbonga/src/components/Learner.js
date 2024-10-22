@@ -1,135 +1,105 @@
-import React, { useState, useEffect } from 'react';
-import { Home, BookOpen, User, LogOut } from 'lucide-react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Upload, Image as ImageIcon, Loader } from 'lucide-react';
 
-const LearningDashboard = () => {
-  const [lessons, setLessons] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+const TryAI = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [prediction, setPrediction] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const lessonsResponse = await fetch('/api/lessons/');
-        const coursesResponse = await fetch('/api/courses/');
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.substr(0, 5) === "image") {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
+    } else {
+      setSelectedFile(null);
+      setPreview(null);
+      setError("Please select an image file.");
+    }
+  };
 
-        if (!lessonsResponse.ok || !coursesResponse.ok) {
-          throw new Error('Failed to fetch data');
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!selectedFile) {
+      setError("Please select an image to upload.");
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+    setPrediction(null);
+
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/predict/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Token ${localStorage.getItem('auth_token')}`
         }
-
-        const lessonsData = await lessonsResponse.json();
-        const coursesData = await coursesResponse.json();
-
-        setLessons(lessonsData);
-        setCourses(coursesData);
-        setIsLoading(false);
-      } catch (error) {
-        setError('Error fetching data. Please try again later.');
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (isLoading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>;
-  }
+      });
+      setPrediction(response.data);
+    } catch (error) {
+      console.error('Error predicting image:', error);
+      setError("An error occurred while processing the image. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white p-6 flex flex-col">
-        <div className="mb-8">
-          <img src="/api/placeholder/50/50" alt="Logo" className="w-12 h-12" />
+    <div className="bg-white rounded-lg shadow p-6">
+      <h2 className="text-2xl font-bold mb-4">Try AI</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex items-center justify-center w-full">
+          <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+              <Upload className="w-10 h-10 mb-3 text-gray-400" />
+              <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+              <p className="text-xs text-gray-500">PNG, JPG or GIF (MAX. 800x400px)</p>
+            </div>
+            <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} accept="image/*" />
+          </label>
         </div>
-        <nav className="space-y-4 flex-grow">
-          <a href="#" className="flex items-center text-red-500 font-medium">
-            <Home className="mr-2" size={20} />
-            Home
-          </a>
-          <a href="#" className="flex items-center text-gray-600">
-            <BookOpen className="mr-2" size={20} />
-            Test Yourself
-          </a>
-        </nav>
-        <div className="mt-auto space-y-4">
-          <a href="#" className="flex items-center text-gray-600">
-            <User className="mr-2" size={20} />
-            Profile
-          </a>
-          <a href="#" className="flex items-center text-red-500">
-            <LogOut className="mr-2" size={20} />
-            Logout
-          </a>
-        </div>
-      </aside>
-
-      {/* Main content */}
-      <main className="flex-1 p-8 overflow-y-auto">
-        <div className="bg-red-500 text-white p-6 rounded-lg mb-8">
-          <h1 className="text-2xl font-bold">Get Learning</h1>
-        </div>
-
-        <section className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Lessons</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {lessons.map((lesson) => (
-              <div key={lesson.id} className="bg-white rounded-lg overflow-hidden shadow">
-                <img src={lesson.image || "/api/placeholder/300/150"} alt={lesson.title} className="w-full h-40 object-cover" />
-                <div className="p-4">
-                  <h3 className="font-medium">{lesson.title}</h3>
-                  <div className="mt-2 bg-gray-200 h-2 rounded-full">
-                    <div 
-                      className="bg-green-500 h-2 rounded-full" 
-                      style={{width: `${lesson.progress || 0}%`}}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            ))}
+        
+        {preview && (
+          <div className="mt-4">
+            <img src={preview} alt="Preview" className="max-w-full h-auto rounded-lg" />
           </div>
-        </section>
+        )}
+        
+        <button type="submit" className="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300" disabled={isLoading}>
+          {isLoading ? (
+            <Loader className="animate-spin mx-auto" />
+          ) : (
+            <>
+              <ImageIcon className="inline-block mr-2" />
+              Analyze Image
+            </>
+          )}
+        </button>
+      </form>
 
-        <section>
-          <h2 className="text-xl font-semibold mb-4">Course Type</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full bg-white rounded-lg overflow-hidden">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Title</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {courses.map((course) => (
-                  <tr key={course.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">{course.title}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <img src={course.instructor_image || "/api/placeholder/32/32"} alt={course.instructor} className="w-8 h-8 rounded-full mr-2" />
-                        {course.instructor}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        {course.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </main>
+      {error && (
+        <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+          {error}
+        </div>
+      )}
+
+      {prediction && (
+        <div className="mt-6">
+          <h3 className="text-xl font-semibold mb-2">Prediction Results:</h3>
+          <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto">
+            {JSON.stringify(prediction, null, 2)}
+          </pre>
+        </div>
+      )}
     </div>
   );
 };
 
-export default LearningDashboard;
+export default TryAI;

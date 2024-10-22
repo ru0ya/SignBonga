@@ -17,9 +17,9 @@ function App() {
 			<Route path="/about-us" element={<AboutUs />} />
 			<Route path="/sign-in" element={<SignIn />} />
 			<Route path="/sign-up" element={<SignUp />} />
-	        <Route path="/learner" element={<LearningDashboard />} />
-	        <Route path="/tutor" element={<TutorPage />} />
 	    </Route>
+		<Route path="/learner" element={<LearningDashboard />} />
+		<Route path="/tutor" element={<TutorPage />} />
 	  </Routes>
   );
 };

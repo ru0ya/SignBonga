@@ -9,7 +9,7 @@ const SignUp = () => {
     email: '',
     password: '',
     re_password: '',
-    user_type: 'learner',   
+    user_type: '',   
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -23,6 +23,8 @@ const SignUp = () => {
     e.preventDefault();
     setError('');
     setSuccess(false);
+
+	console.log(formData);
 
     try {
       const response = await axios.post('http://localhost:8000/auth/users/', formData);
