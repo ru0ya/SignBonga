@@ -62,7 +62,7 @@ const TutorPage = () => {
       {/* Sidebar */}
       <aside className="w-64 bg-white p-6 flex flex-col">
         <div className="mb-8">
-          <img src="https://imgur.com/a/sc8lDTn" alt="Logo" className="w-12 h-12" />
+          <img src="https://imgur.com/a/sc8lDTn" alt="SignBonga" className="w-12 h-12" />
         </div>
         <nav className="space-y-4 flex-grow">
           <a href="#" className="flex items-center text-red-500 font-medium" onClick={() => setActiveView('lessons')}>

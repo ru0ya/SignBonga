@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Upload, Image as ImageIcon, Loader } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const TryAI = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -86,9 +85,9 @@ const TryAI = () => {
       </form>
 
       {error && (
-        <Alert variant="destructive" className="mt-4">
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
+        <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+          {error}
+        </div>
       )}
 
       {prediction && (
