@@ -18,7 +18,7 @@ const AboutUs = () => {
             
             <div>
               <p className="mb-4">
-              At SignBonga, we simplify the process of learning Kenyan Sign Language (KSL) by making it accessible, engaging, and interactive. Whether you're starting your journey as a learner or looking to teach as a tutor, our platform provides immersive lessons and real-time feedback enhanced by machine learning. Learn at your own pace, grow with AI-driven support, and connect with a vibrant community committed to bridging communication gaps.
+              At SignBonga, we simplify the process of learning Kenyan Sign Language (KSL) by making it accessible, engaging, and interactive. Whether you're starting your journey as a learner or looking to teach as a tutor, our platform provides immersive lessons and real-time feedback. Learn at your own pace, grow with AI-driven support, and connect with a vibrant community committed to bridging communication gaps.
               </p>
               <p>
               Join us today—whether as a learner or a tutor—and be part of the movement toward creating inclusive conversations for all.
