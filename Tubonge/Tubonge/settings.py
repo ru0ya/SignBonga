@@ -38,7 +38,7 @@ DEBUG = True
 
 CORS_ALLOWED_ORIGINS = [
         "http://localhost:3000",
-        "https://signbonga.vercel.app/"
+        "https://signbonga.vercel.app"
         ]
 
 # CORS_ALLOW_HEADERS: List[str] = list(default_headers) + [
