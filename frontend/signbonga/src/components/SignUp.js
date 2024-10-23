@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import apiUrl from '../config';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +28,7 @@ const SignUp = () => {
 	console.log(formData);
 
     try {
-      const response = await axios.post('http://localhost:8000/auth/users/', formData);
+      const response = await axios.post(`${apiUrl}/auth/users/`, formData);
       setSuccess(true);
       setTimeout(() => {
         navigate('/sign-in');

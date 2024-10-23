@@ -5,6 +5,8 @@ import moment from 'moment';
 import axios from 'axios';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
+import apiUrl from '../config';
+
 const localizer = momentLocalizer(moment);
 
 const TutorPage = () => {
@@ -28,7 +30,7 @@ const TutorPage = () => {
 
   const fetchBookings = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/tutor-bookings/');
+      const response = await axios.get(`${apiUrl}/api/tutor-bookings/`);
       const formattedBookings = response.data.map(booking => ({
         id: booking.id,
         title: `Session with ${booking.student_name}`,
@@ -44,7 +46,7 @@ const TutorPage = () => {
   const handleLogout = async (e) => {
 	  e.preventDefault();
 	  try {
-		  await axios.post('http:localhost:8000/auth/token/logout/', {},
+		  await axios.post(`${apiUrl}/auth/token/logout/`, {},
 			  {
 				  headers: {
 					  'Authorization': `Token ${localStorage.getItem('auth_token')}`

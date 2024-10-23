@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Home, BookOpen, User, LogOut } from 'lucide-react';
 import TryAI from './TryAI';
+import apiUrl from '../config';
 
 const LearningDashboard = () => {
   const [lessons, setLessons] = useState([]);
@@ -46,7 +47,7 @@ const LearningDashboard = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8000/auth/token/logout/', {}, {
+      await axios.post(`${apiUrl}/auth/token/logout/`, {}, {
         headers: {
           'Authorization': `Token ${localStorage.getItem('auth_token')}`
         } 
@@ -61,7 +62,7 @@ const LearningDashboard = () => {
   const handleProfile = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get('http://localhost:8000/auth/users/me/', {
+      const response = await axios.get(`${apiUrl}/auth/users/me/`, {
         headers: {
           'Authorization': `Token ${localStorage.getItem('auth_token')}`
         }

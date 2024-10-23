@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import apiUrl from '../config'
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -18,13 +19,13 @@ const SignIn = () => {
     e.preventDefault();
     setError('');
     try {
-      const response = await axios.post('http://localhost:8000/auth/token/login/', formData);
+      const response = await axios.post(`${apiUrl}/auth/token/login/`, formData);
       const { auth_token } = response.data;
 
       localStorage.setItem('auth_token', auth_token);
       
       // Fetch user profile
-      const profileResponse = await axios.get('http://localhost:8000/auth/users/me/', {
+      const profileResponse = await axios.get(`${apiUrl}/auth/users/me/`, {
         headers: {
           Authorization: `Token ${auth_token}`,
         },
