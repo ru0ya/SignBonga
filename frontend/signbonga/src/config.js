@@ -1,3 +1,3 @@
-const apiUrl = process.env.SIGNBONGA_API_URL;
+const apiUrl = 'https://signbonga.onrender.com';
 
 export default apiUrl;
