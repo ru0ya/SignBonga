@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
-import { Home, BookOpen, User, LogOut } from 'lucide-react';
+import { Home, BookOpen, User, LogOut, Menu } from 'lucide-react';
 import TryAI from './TryAI';
 import apiUrl from '../config';
 
 const LearningDashboard = () => {
   const [lessons, setLessons] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [open, setOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeView, setActiveView] = useState('dashboard');
   const navigate = useNavigate();
+
+// const menus = [
+// 	{ name: "Home", icon: Home, onClick: () => setActiveView('dashboard')},
+// 	{ name: "Try AI", icon: BookOpen, onClick: () => setActiveView('tryai')},
+// 	{ name: "Profile", icon: User, onClick: handleProfile, margin: true},
+// 	{ name: "Logout", icon: LogOut, onClick: handleLogout, danger: true}
+// ];
 
   // Dummy data as placeholders
   const placeholderLessons = [
@@ -73,6 +81,17 @@ const LearningDashboard = () => {
     }
   };
 
+const menus = [
+	{ name: "Home", icon: Home, onClick: () => setActiveView('dashboard')},
+	{ name: "Try AI", icon: BookOpen, onClick: () => setActiveView('tryai')},
+	{ name: "Profile", icon: User, onClick: handleProfile, margin: true},
+	{ name: "Logout", icon: LogOut, onClick: handleLogout, danger: true}
+];
+
+  const toggleSidebar = () => {
+	  setOpen(!open);
+  };
+
   if (isLoading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
   }
@@ -84,46 +103,63 @@ const LearningDashboard = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <aside className="w-64 bg-[#acb3b5] p-6 flex flex-col">
-        <div className="mb-8">
-		  <img 
-	         src="https://i.imgur.com/zuoCsSp.png" 
-             alt="SignBonga" 
-             className="w-8 h-8 sm:w-10 sm:h-10 md:w-16 md:h-16 lg:w-24 lg:h-24 object-contain"
-          />
+      <aside 
+	     className={`fixed top-0 left-0 h-screen bg-[#acb3b5] transition-all duration-300 ease-in-out
+		 ${open ? "w-64" : "w-16"} z-50`}
+	  >
+	    <div className="flex flex-col h-full p-4">
+	       {/* Logo and Toggle Button */}
+           <div className="flex items-center justify-between mb-8">
+		      <img 
+	            src="https://i.imgur.com/zuoCsSp.png" 
+                alt="SignBonga" 
+                className="w-8 h-8 sm:w-10 sm:h-10 md:w-16 md:h-16 lg:w-24 lg:h-24 object-contain"
+              />
+	          <button
+	             onClick={() => setOpen(!open)}
+	             className="p-2 rounded-lg hover:bg-red transition-colors"
+	          >
+	            <Menu size={20} />
+	          </button>
         </div>
-        <nav className="space-y-4 flex-grow">
-          <a 
-            href="#" 
-            className={`flex items-center ${activeView === 'dashboard' ? 'text-red-500 font-medium' : 'text-gray-600'}`}
-            onClick={() => setActiveView('dashboard')}
-          >
-            <Home className="mr-2" size={20} />
-            Home
-          </a>
-          <a 
-            href="#" 
-            className={`flex items-center ${activeView === 'tryai' ? 'text-red-500 font-medium' : 'text-gray-600'}`}
-            onClick={() => setActiveView('tryai')}
-          >
-            <BookOpen className="mr-2" size={20} />
-            Try AI
-          </a>
-        </nav>
-        <div className="mt-auto space-y-4">
-          <a href="/auth/users/me/" className="flex items-center text-gray-600" onClick={handleProfile}>
-            <User className="mr-2" size={20} />
-            Profile
-          </a>
-          <a href="/auth/token/logout/" className="flex items-center text-red-500" onClick={handleLogout}>
-            <LogOut className="mr-2" size={20} />
-            Logout
-          </a>
+	    {/*Navigation Menu*/}
+	    <nav className="flex-grow space-y-2">
+            {menus.map((menu, i) => (
+              <button
+                key={i}
+                onClick={menu.onClick}
+                className={`w-full flex items-center gap-4 px-3 py-2 rounded-lg transition-all duration-200
+                  ${menu.margin ? "mt-8" : ""}
+                  ${activeView === menu.name.toLowerCase() ? "bg-gray-200 text-red-500" : "text-[#06110d]"}
+                  ${menu.danger ? "hover:bg-red-100 hover:text-red-500" : "hover:bg-gray-200"}
+                  group relative
+                `}
+              >
+				<div className=",in-w-[20px]">
+                  <menu.icon size={20} />
+				</div>
+                <span 
+                  className={`ml-4 transition-all duration-300  ${!open ? "w-0 opacity-0" : "w-auto opacity-100"}`}
+				  style={{ whiteSpace: "nowrap", overflow: "hidden" }}
+                >
+                  {menu.name}
+                </span>
+                {/* Tooltip for collapsed state */}
+                {!open && (
+                  <div className="absolute left-full rounded-md px-2 py-1 ml-6 bg-[#06110d] text-white text-sm
+                    invisible opacity-0 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
+                    {menu.name}
+                  </div>
+                )}
+              </button>
+            ))}
+          </nav>
         </div>
       </aside>
 
+
       {/* Main content */}
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className={`flex-1 transition-all duration-300 ${open ? "ml-64" : "ml-16"} p-8 overflow-y-auto`}>
         {activeView === 'dashboard' ? (
           <>
             <div className="bg-gradient-to-r from-red-700 via-green-800 to-red-700 text-white p-6 rounded-lg mb-8">
