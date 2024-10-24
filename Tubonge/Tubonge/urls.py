@@ -36,6 +36,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
     path('users/', include('users.urls')),
+    path('stayingalive/', include('stayingalive.urls')),
     # swagger
     re_path(
         r'^swagger(?P<format>\.json|\.yaml)$',

@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
@@ -78,12 +79,17 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'users.apps.UsersConfig',
     'tubonge.apps.TubongeConfig',
+    'stayingalive.apps.StayingaliveConfig',
     # 'predict.app.PredictConfig',
     'drf_spectacular',
 ]
 
 # STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+CRONJOBS = [
+        ('*/15 * * * *', 'Tubonge.cron.staying_alive')
+        ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
